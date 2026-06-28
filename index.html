@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sergey Budnytskyi — Full-Stack Developer</title>
+<meta name="description" content="Sergey Budnytskyi — Full-Stack JavaScript developer. From high-converting landing pages to complete full-stack web apps with React, Node.js and Stripe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0D12;
+    --bg-soft:#12151D;
+    --card:#141821;
+    --line:rgba(255,255,255,0.08);
+    --text:#E8EAF0;
+    --muted:#9AA3B2;
+    --accent:#6EE7B7;     /* mint */
+    --accent2:#60A5FA;    /* blue */
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,p{margin:0;}
+  img{display:block;max-width:100%;}
+  ::selection{background:var(--accent);color:#06210f;}
+
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  .accent-text{background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;}}
+
+  /* header */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(11,13,18,0);border-bottom:1px solid transparent;transition:background .3s,border-color .3s;}
+  header.scrolled{background:rgba(11,13,18,.8);border-bottom-color:var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(120deg,var(--accent),var(--accent2));}
+  .nav-links{display:flex;gap:30px;align-items:center;}
+  .nav-links a{font-size:14px;color:var(--muted);transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,background .2s,border-color .2s,color .2s;}
+  .btn-primary{padding:11px 20px;background:linear-gradient(120deg,var(--accent),var(--accent2));color:#06210f;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{padding:11px 20px;border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.02);}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.05);}
+  .burger{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:10px;background:transparent;cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center;}
+  .burger span{width:18px;height:2px;background:var(--text);}
+
+  /* hero */
+  .hero{position:relative;padding:160px 0 110px;overflow:hidden;}
+  .hero .glow{position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(96,165,250,.16),transparent 60%);pointer-events:none;}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted);margin-bottom:26px;}
+  .pill .live{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(110,231,183,.15);}
+  .hero h1{font-size:clamp(40px,7vw,82px);line-height:1.02;letter-spacing:-.03em;font-weight:800;}
+  .hero .sub{margin-top:24px;max-width:620px;font-size:clamp(16px,2.2vw,19px);line-height:1.6;color:var(--muted);}
+  .hero-cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;}
+  .meta-row{margin-top:56px;display:flex;flex-wrap:wrap;gap:36px;border-top:1px solid var(--line);padding-top:28px;}
+  .meta-row .k{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);}
+  .meta-row .v{margin-top:6px;font-weight:600;}
+
+  /* section shells */
+  section{padding:96px 0;}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;flex-wrap:wrap;}
+  .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:600;}
+  .sec-head h2{margin-top:14px;font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;font-weight:700;}
+  .sec-head p{max-width:360px;color:var(--muted);font-size:15px;line-height:1.6;}
+
+  /* projects */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s;}
+  .card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.18);}
+  .thumb{position:relative;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--line);}
+  .thumb .status{position:absolute;top:14px;right:14px;font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(11,13,18,.6);backdrop-filter:blur(6px);border:1px solid var(--line);}
+  .status.live{color:var(--accent);}
+  .status.wip{color:#FBBF24;}
+  /* brand-styled previews */
+  .pv-coffee{background:#F5EFE6;color:#4A352A;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(28px,5vw,44px);}
+  .pv-flow{background:radial-gradient(ellipse at 50% 0%,rgba(124,58,237,.4),#0C0C14 70%);color:#fff;font-weight:700;font-size:clamp(26px,4.5vw,40px);letter-spacing:-.02em;}
+  .pv-flow .sq{display:inline-block;width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#A78BFA,#6366F1);vertical-align:-3px;margin-right:10px;}
+  .pv-noir{background:#0A0A0A;color:#F5F5F2;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(26px,4.5vw,42px);}
+  .pv-noir em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;}
+  .pv-noir .ld{color:#C6FF3A;}
+  .pv-shop{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;font-weight:700;font-size:clamp(24px,4vw,36px);letter-spacing:-.02em;}
+  .pv-shop .tag{display:block;font-size:13px;font-weight:500;color:#7dd3fc;letter-spacing:.1em;text-transform:uppercase;margin-top:8px;}
+  .pv-free{background:linear-gradient(135deg,#022c22,#064e3b);color:#fff;font-weight:700;font-size:clamp(24px,4vw,36px);letter-spacing:-.02em;}
+  .pv-free .tag{display:block;font-size:13px;font-weight:500;color:#6ee7b7;letter-spacing:.1em;text-transform:uppercase;margin-top:8px;}
+
+  .card-body{padding:24px;display:flex;flex-direction:column;flex:1;}
+  .card-body h3{font-size:21px;font-weight:700;letter-spacing:-.01em;}
+  .card-body .desc{margin-top:10px;color:var(--muted);font-size:14.5px;line-height:1.6;flex:1;}
+  .tags{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;}
+  .tag-chip{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);}
+  .card-links{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
+  .lnk{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;padding:9px 15px;border-radius:10px;border:1px solid var(--line);transition:background .2s,border-color .2s,color .2s;}
+  .lnk:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04);}
+  .lnk.primary{background:rgba(110,231,183,.12);border-color:rgba(110,231,183,.3);color:var(--accent);}
+  .lnk.primary:hover{background:rgba(110,231,183,.2);}
+  .lnk.disabled{opacity:.45;pointer-events:none;}
+
+  /* about */
+  .about{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:start;}
+  .about-grid p{color:var(--muted);font-size:16px;line-height:1.7;margin-bottom:18px;}
+  .about-grid p strong{color:var(--text);font-weight:600;}
+  .stack h4{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:14px;}
+  .stack .chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px;}
+  .stack .chips span{font-size:13px;padding:7px 13px;border-radius:10px;background:var(--card);border:1px solid var(--line);}
+
+  /* contact */
+  .contact{text-align:center;}
+  .contact h2{font-size:clamp(32px,6vw,64px);letter-spacing:-.03em;font-weight:800;line-height:1.05;}
+  .contact p{margin:22px auto 0;max-width:480px;color:var(--muted);font-size:17px;line-height:1.6;}
+  .contact-links{margin-top:40px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .contact-links a{padding:14px 24px;border-radius:12px;border:1px solid var(--line);font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:10px;transition:transform .2s,border-color .2s,background .2s;}
+  .contact-links a:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04);}
+  .contact-links a.main{background:linear-gradient(120deg,var(--accent),var(--accent2));color:#06210f;border:none;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:13.5px;}
+
+  /* responsive */
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .burger{display:flex;}
+    .grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;gap:36px;}
+    section{padding:72px 0;}
+    .hero{padding:130px 0 80px;}
+    .mobile-menu.open{display:flex;}
+  }
+  .mobile-menu{display:none;position:fixed;inset:68px 0 auto 0;z-index:49;flex-direction:column;background:rgba(11,13,18,.97);border-bottom:1px solid var(--line);padding:18px 24px 26px;gap:6px;}
+  .mobile-menu a{padding:13px 0;border-bottom:1px solid var(--line);color:var(--text);font-size:16px;}
+  .mobile-menu a:last-child{border-bottom:none;}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     EDIT YOUR LINKS HERE  ↓↓↓  (search for PROJECTS in the script)
+     - Set the correct Vercel live URLs and GitHub repo URLs.
+     - Set status: "live" or "wip" (work in progress).
+============================================================ -->
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="#top" class="brand"><span class="dot"></span>Sergey&nbsp;Budnytskyi</a>
+    <nav class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="btn btn-primary">Hire me</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#work">Work</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="pill reveal"><span class="live"></span>Available for new projects · Q3 2026</div>
+    <h1 class="reveal">Full-Stack Developer<br>building things that <span class="accent-text">convert</span>.</h1>
+    <p class="sub reveal">Hi, I'm Sergey — a Full-Stack JavaScript developer based in Poland. I build everything from high-converting landing pages to complete web apps with React, Node.js and Stripe.</p>
+    <div class="hero-cta reveal">
+      <a href="#work" class="btn btn-primary">View my work →</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+    <div class="meta-row reveal">
+      <div><div class="k">Location</div><div class="v">Poland</div></div>
+      <div><div class="k">Focus</div><div class="v">Landing pages → Full-stack</div></div>
+      <div><div class="k">Stack</div><div class="v">React · Node.js · Stripe</div></div>
+      <div><div class="k">Languages</div><div class="v">EN · PL · UK · RU</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Selected work</div>
+        <h2>Projects &amp; case studies</h2>
+      </div>
+      <p>A mix of polished landing pages and full-stack applications — each shipped with clean, responsive code.</p>
+    </div>
+    <div class="grid" id="projectGrid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">About</div>
+        <h2>A bit about me</h2>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>I'm a <strong>Full-Stack JavaScript developer</strong> who builds fast, modern websites that actually convert. I work across the whole stack — from pixel-perfect, responsive front-ends to solid back-ends and payment integrations.</p>
+        <p>My work ranges from <strong>high-converting landing pages</strong> to complete full-stack apps: e-commerce stores with Stripe, REST APIs, real-time chat and dashboards. I care about clean code, performance, and great user experience on every screen size.</p>
+        <p>Based in Poland and working with clients worldwide — I speak <strong>English, Polish, Ukrainian and Russian</strong>, so communication is never a barrier.</p>
+      </div>
+      <div class="stack reveal">
+        <h4>Front-end</h4>
+        <div class="chips"><span>React</span><span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>Tailwind</span><span>GSAP</span></div>
+        <h4>Back-end</h4>
+        <div class="chips"><span>Node.js</span><span>Express</span><span>REST APIs</span><span>Stripe</span><span>WebSockets</span><span>MongoDB</span></div>
+        <h4>Tools</h4>
+        <div class="chips"><span>Git &amp; GitHub</span><span>Vercel</span><span>Figma</span><span>Vite</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Let's build something<br><span class="accent-text">great together.</span></h2>
+      <p>Got a project in mind — a landing page, a web app, or something in between? Drop me a message, I usually reply within a day.</p>
+      <div class="contact-links">
+        <a class="main" href="mailto:serega150704@gmail.com">✉ serega150704@gmail.com</a>
+        <a href="https://t.me/TylerOkonoma" target="_blank" rel="noopener">Telegram → @TylerOkonoma</a>
+        <a href="https://github.com/L1nkBl1nk" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Sergey Budnytskyi</span>
+    <span>Designed &amp; built by me · Poland</span>
+  </div>
+</footer>
+
+<script>
+  /* ============================================================
+     PROJECTS — EDIT LINKS & STATUS HERE
+     status: "live" (shows green badge + active Live button)
+             "wip"  (shows amber "In progress" badge, Live disabled)
+     Replace the live/code URLs with your real ones.
+  ============================================================ */
+  const PROJECTS = [
+    {
+      title: "Camber Coffee",
+      desc: "A warm, artisan landing page for a specialty coffee shop — tabbed menu, masonry gallery, animated reveals and a map.",
+      tags: ["HTML", "CSS", "Vanilla JS", "Responsive"],
+      preview: { cls: "pv-coffee", html: "Camber Coffee" },
+      status: "live",
+      live: "https://camber-coffee-duusatmum-hazard-team.vercel.app",
+      code: "https://github.com/L1nkBl1nk/camber-coffee"
+    },
+    {
+      title: "FlowDesk — SaaS",
+      desc: "A sleek dark SaaS landing for a project-management tool: app mockup, animated command menu, analytics chart and pricing.",
+      tags: ["React-style", "CSS", "SaaS UI", "Dark mode"],
+      preview: { cls: "pv-flow", html: "<span class='sq'></span>FlowDesk" },
+      status: "live",
+      live: "https://flowdesk-9rpinymg8-hazard-team.vercel.app",
+      code: "https://github.com/L1nkBl1nk/flowdesk"
+    },
+    {
+      title: "NOIR Studio",
+      desc: "A bold, editorial landing for a creative agency — giant type, GSAP scroll animations, marquee and interactive service rows.",
+      tags: ["Tailwind", "GSAP", "Animation", "Editorial"],
+      preview: { cls: "pv-noir", html: "NOIR<span class='ld'>.</span><em>studio</em>" },
+      status: "live",
+      live: "https://noir-studio-2lnk3tk8e-hazard-team.vercel.app",
+      code: "https://github.com/L1nkBl1nk/noir-studio"
+    },
+    {
+      title: "E-Commerce Store",
+      desc: "A full e-commerce store with product catalogue, cart and checkout flow. Currently polishing the design and cart logic.",
+      tags: ["React", "Node.js", "E-commerce", "Cart"],
+      preview: { cls: "pv-shop", html: "E-Commerce<span class='tag'>Online Store</span>" },
+      status: "wip",
+      live: "",
+      code: "https://github.com/L1nkBl1nk/services-marketplace"
+    },
+    {
+      title: "Freelancer Platform",
+      desc: "Diploma project — a platform for freelancers with Stripe payments and a real-time online chat (in active development).",
+      tags: ["React", "Node.js", "Stripe", "WebSockets"],
+      preview: { cls: "pv-free", html: "Freelancer Platform<span class='tag'>Stripe · Live chat</span>" },
+      status: "wip",
+      live: "",
+      code: "https://github.com/L1nkBl1nk/freelance-website"
+    }
+  ];
+
+  const grid = document.getElementById('projectGrid');
+  grid.innerHTML = PROJECTS.map(p => {
+    const badge = p.status === 'live'
+      ? `<span class="status live">● Live</span>`
+      : `<span class="status wip">● In progress</span>`;
+    const liveBtn = (p.status === 'live' && p.live)
+      ? `<a class="lnk primary" href="${p.live}" target="_blank" rel="noopener">↗ Live demo</a>`
+      : `<span class="lnk disabled">↗ Live demo</span>`;
+    const codeBtn = (p.code && p.code !== '#')
+      ? `<a class="lnk" href="${p.code}" target="_blank" rel="noopener">‹/› Code</a>`
+      : `<span class="lnk disabled">‹/› Code</span>`;
+    return `
+      <article class="card reveal">
+        <div class="thumb ${p.preview.cls}">
+          ${badge}
+          <div>${p.preview.html}</div>
+        </div>
+        <div class="card-body">
+          <h3>${p.title}</h3>
+          <p class="desc">${p.desc}</p>
+          <div class="tags">${p.tags.map(t => `<span class="tag-chip">${t}</span>`).join('')}</div>
+          <div class="card-links">${liveBtn}${codeBtn}</div>
+        </div>
+      </article>`;
+  }).join('');
+
+  /* header scroll state */
+  const header = document.getElementById('header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  /* reveal on scroll */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* mobile menu */
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+</script>
+</body>
+</html>
